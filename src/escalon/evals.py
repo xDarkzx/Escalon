@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import json
-import re
 import statistics
 import time
 from collections.abc import Awaitable, Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 
+from escalon.guards import LINK, enforce_ticket_honesty, ungrounded_links
 from escalon.kb import article_url
 from escalon.search import SearchIndex
 from escalon.tickets import Ticket
@@ -77,8 +77,6 @@ async def evaluate_retrieval(index: SearchIndex, questions: list[Question], k: i
 
 # ── End-to-end agent evaluation ──────────────────────────────────────────────
 
-URL_PATTERN = re.compile(r"https://learn\.microsoft\.com/[^\s)\]>,]+")
-
 
 class RecordingTickets:
     """Eval harness ticket system: records what the agent would have filed. No open tickets."""
@@ -103,9 +101,11 @@ class AgentCaseResult:
     action_correct: bool
     # Expected article cited in the reply or attached to the ticket; None if no expectation.
     expected_article_used: bool | None
-    fabricated_urls: list[str]  # learn.microsoft.com URLs in the reply that search never returned
+    fabricated_urls: list[str]  # learn.microsoft.com links not in any retrieved article or its text
     checked_open_tickets_first: bool | None  # None if no ticket was created
     searches: int
+    # Ticket ids the model claimed without creating them (the guard then corrected the reply).
+    unbacked_ticket_claims: list[str]
     seconds: float
     reply: str
     error: str | None = None
@@ -120,6 +120,7 @@ class AgentReport:
     escalated_when_could_answer: int
     expected_article_used: float
     replies_with_fabricated_urls: int
+    model_invented_tickets: int
     checked_open_tickets_first: float
     errors: int
     median_seconds: float
@@ -136,15 +137,17 @@ async def evaluate_case(
     tools = HelpdeskTools(index=index, tickets=tickets, user_email="eval.user@contoso.test")
     start = time.perf_counter()
     error = None
+    unbacked: list[str] = []
     try:
-        reply = await run(tools, q.question)
+        guarded = await enforce_ticket_honesty(await run(tools, q.question), tools, q.question)
+        reply, unbacked = guarded.text, guarded.unbacked_claims
     except Exception as exc:  # noqa: BLE001 - recorded and counted as a failure, never hidden
         reply, error = "", f"{type(exc).__name__}: {exc}"
     seconds = time.perf_counter() - start
 
     escalated = bool(tools.created)
     action = "escalate" if escalated else "answer"
-    used_urls = set(URL_PATTERN.findall(reply))
+    used_urls = {u.rstrip(".") for u in LINK.findall(reply)}
     for call in tools.calls:
         if call.name == "create_ticket" and tools.created:
             used_urls.update(call.arguments.get("relevant_article_urls", []))  # type: ignore[arg-type]
@@ -156,11 +159,12 @@ async def evaluate_case(
         action=action,
         action_correct=action == q.expected_action and error is None,
         expected_article_used=bool(expected_urls & used_urls) if expected_urls else None,
-        fabricated_urls=sorted(u for u in URL_PATTERN.findall(reply) if u.rstrip(".") not in tools.retrieved),
+        fabricated_urls=ungrounded_links(reply, tools),
         checked_open_tickets_first=(
             "find_open_tickets" in names[: names.index("create_ticket")] if "create_ticket" in names else None
         ),
         searches=names.count("search_kb"),
+        unbacked_ticket_claims=unbacked,
         seconds=round(seconds, 1),
         reply=reply,
         error=error,
@@ -184,6 +188,7 @@ def summarise(model: str, results: list[AgentCaseResult]) -> AgentReport:
             sum(bool(r.expected_article_used) for r in with_expected), len(with_expected)
         ),
         replies_with_fabricated_urls=sum(bool(r.fabricated_urls) for r in results),
+        model_invented_tickets=sum(bool(r.unbacked_ticket_claims) for r in results),
         checked_open_tickets_first=_ratio(
             sum(bool(r.checked_open_tickets_first) for r in escalations), len(escalations)
         ),

@@ -39,6 +39,8 @@ def build_agent(client: AsyncOpenAI, model: str, tools: HelpdeskTools) -> Agent:
         INSTRUCTIONS,
         name="escalon",
         description="First-line IT support grounded in Microsoft troubleshooting articles",
+        # Support answers should be repeatable, and evals comparable between runs.
+        default_options={"temperature": 0.0},
         tools=[
             tool(tools.search_kb),
             tool(tools.find_open_tickets),

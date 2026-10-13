@@ -13,7 +13,7 @@ already contains the symptoms, what was tried, and which articles were relevant.
 ## Knowledge base
 
 `MicrosoftDocs/SupportArticles-docs` (CC-BY-4.0): `support/windows-client`, `support/entra/entra-id/mfa`,
-`support/mem/intune` — ~520 troubleshooting articles. Outlook/Teams articles are not openly
+`support/mem/intune`, pinned to one commit: 647 articles, 3,464 chunks. Outlook/Teams articles are not openly
 licensed in English, so they are out of scope.
 
 Each article maps to its public page: `support/<path>.md` →

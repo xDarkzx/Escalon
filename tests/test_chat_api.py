@@ -84,6 +84,7 @@ def test_agent_searches_then_answers_with_citation(run_chat):
     body = response.json()
     assert ARTICLE_URL in body["reply"]
     assert body["tickets_created"] == []
+    assert model.requests[0]["temperature"] == 0.0
     # The search result was fed back to the model as a tool message.
     tool_messages = [m for m in model.requests[1]["messages"] if m["role"] == "tool"]
     assert "Network printer error" in json.dumps(tool_messages)
@@ -111,3 +112,15 @@ def test_agent_escalation_files_ticket_as_session_user(run_chat):
 
     assert response.json()["tickets_created"] == ["31001"]
     assert tickets.created[0][0] == "dev@contoso.test"
+
+
+def test_invented_ticket_number_never_reaches_the_user(run_chat):
+    response, _, tickets = run_chat(
+        [{"content": "I've opened a ticket for you: **#24576**"}],
+        "please reset my password",
+    )
+
+    body = response.json()
+    assert "24576" not in body["reply"]
+    assert body["tickets_created"] == ["31001"]
+    assert tickets.created[0][2].startswith("Reported by the user via Escalon")

@@ -26,6 +26,7 @@ from starlette.routing import Mount, Route
 from escalon.agent import build_agent
 from escalon.auth import REQUIRED_SCOPE, EntraTokenVerifier, entra_issuers, user_email
 from escalon.config import AuthMode, Settings
+from escalon.guards import enforce_ticket_honesty
 from escalon.models import openai_client
 from escalon.search import SearchIndex
 from escalon.services import build_index
@@ -183,9 +184,12 @@ def _build_api(settings: Settings, verifier, sessions: UserSessions, llm) -> Fas
         before = len(tools.created)
         response = await agent.run(body.message, session=session)
         sessions.chats[conversation_id] = (email, session)
+        guarded = await enforce_ticket_honesty(response.text, tools, body.message)
+        if guarded.unbacked_claims:
+            log.warning("model claimed tickets it never created: %s", guarded.unbacked_claims)
         return ChatResponse(
             conversation_id=conversation_id,
-            reply=response.text,
+            reply=guarded.text,
             tickets_created=[t.number for t in tools.created[before:]],
         )
 
