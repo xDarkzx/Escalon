@@ -11,7 +11,7 @@ permissions:
 jobs:
   quality:
     name: Lint, types, tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v7
@@ -33,7 +33,7 @@ jobs:
 
   security:
     name: Dependency and secret scanning
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
         with:
@@ -43,14 +43,20 @@ jobs:
         run: |
           uv export --locked --no-emit-project --format requirements-txt > requirements.lock.txt
           uvx pip-audit --requirement requirements.lock.txt --strict --disable-pip
-      - name: Secret scan
-        uses: gitleaks/gitleaks-action@v2
+      - name: Secret scan of the full history
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_VERSION: 8.30.1
+          GITLEAKS_SHA256: 551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb
+        run: |
+          archive="gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          curl -sSfLO "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/${archive}"
+          echo "${GITLEAKS_SHA256}  ${archive}" | sha256sum --check --strict
+          tar -xzf "${archive}" gitleaks
+          ./gitleaks git --redact --verbose .
 
   infra:
     name: Bicep and container
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - name: Bicep lint and build
