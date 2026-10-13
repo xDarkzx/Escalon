@@ -32,3 +32,12 @@ is listed here.
 | q11 | answer → escalate | Fix changes the time-out on the file server. |
 | q12 | answer → escalate | Fix is an `HKLM` registry edit. |
 | q36 | answer → escalate | Fix is in the Intune admin center. |
+
+## Run notes
+
+- v1 and v2 are single runs at the model's default temperature, so differences of a few
+  questions are within run-to-run noise.
+- v3a/v3b repeat v2 at temperature 0. The two runs agree on 49/50 actions, but accuracy drops
+  to 0.66-0.68 and q01 fails both times with a malformed tool call from the model (Ollama
+  returns HTTP 500). Temperature is therefore a setting (`ESCALON_TEMPERATURE`) that defaults
+  to the model's own default rather than being forced to 0.

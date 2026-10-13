@@ -116,7 +116,7 @@ async def _eval_agent(questions_path: Path, only: list[str] | None) -> str:
     index = build_index(settings)
 
     async def run(tools: HelpdeskTools, question: str) -> str:
-        response = await build_agent(client, settings.chat_model, tools).run(question)
+        response = await build_agent(client, settings.chat_model, tools, settings.temperature).run(question)
         return str(response.text)
 
     results = []

@@ -176,7 +176,7 @@ def _build_api(settings: Settings, verifier, sessions: UserSessions, llm) -> Fas
     @api.post("/chat")
     async def chat(body: ChatRequest, email: str = Depends(authenticated_user)) -> ChatResponse:
         tools = sessions.tools_for(email)
-        agent = build_agent(llm, settings.chat_model, tools)
+        agent = build_agent(llm, settings.chat_model, tools, settings.temperature)
         conversation_id = body.conversation_id or str(uuid.uuid4())
         owner, session = sessions.chats.get(conversation_id, (email, agent.create_session()))
         if owner != email:

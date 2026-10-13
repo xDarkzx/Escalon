@@ -63,6 +63,9 @@ class Settings(BaseSettings):
     public_url: str = "http://localhost:8000"  # where clients reach this server; the OAuth resource id
     dev_user_email: str | None = None  # identity used when auth_mode=disabled
 
+    # Sampling temperature; unset keeps the model's default.
+    temperature: float | None = None
+
     # Retrieval
     search_top_k: int = 5
 

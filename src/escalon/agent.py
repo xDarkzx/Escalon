@@ -32,15 +32,18 @@ How to work:
 """
 
 
-def build_agent(client: AsyncOpenAI, model: str, tools: HelpdeskTools) -> Agent:
+def build_agent(
+    client: AsyncOpenAI, model: str, tools: HelpdeskTools, temperature: float | None = None
+) -> Agent:
     chat_client = OpenAIChatCompletionClient(model=model, async_client=client)
     return Agent(
         chat_client,
         INSTRUCTIONS,
         name="escalon",
         description="First-line IT support grounded in Microsoft troubleshooting articles",
-        # Support answers should be repeatable, and evals comparable between runs.
-        default_options={"temperature": 0.0},
+        # None keeps the model's own default. Greedy decoding (0.0) made qwen3.5:9b both less
+        # accurate and prone to malformed tool calls; see evals/README.md.
+        default_options={} if temperature is None else {"temperature": temperature},
         tools=[
             tool(tools.search_kb),
             tool(tools.find_open_tickets),

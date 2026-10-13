@@ -84,7 +84,7 @@ def test_agent_searches_then_answers_with_citation(run_chat):
     body = response.json()
     assert ARTICLE_URL in body["reply"]
     assert body["tickets_created"] == []
-    assert model.requests[0]["temperature"] == 0.0
+    assert "temperature" not in model.requests[0]  # model default unless configured
     # The search result was fed back to the model as a tool message.
     tool_messages = [m for m in model.requests[1]["messages"] if m["role"] == "tool"]
     assert "Network printer error" in json.dumps(tool_messages)
