@@ -103,6 +103,11 @@ See [docs/deploy.md](docs/deploy.md). The Bicep compiles and lints clean and the
 and passes its health check, but the Azure deployment has **not yet been run** against a live
 subscription. Design notes are in [docs/design.md](docs/design.md).
 
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the workflow and quality gates, and
+[SECURITY.md](SECURITY.md) for reporting vulnerabilities.
+
 ## Licence
 
 Code: MIT. Knowledge-base content: © Microsoft, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
