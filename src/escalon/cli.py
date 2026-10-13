@@ -36,6 +36,10 @@ def main(argv: list[str] | None = None) -> None:
     ev_agent.add_argument("--only", nargs="*", help="question ids to run")
     ev_agent.add_argument("--out", type=Path)
 
+    report = commands.add_parser("report", help="markdown results table from saved eval runs")
+    report.add_argument("runs", nargs="+", help="NAME=PATH pairs of agent eval result files")
+    report.add_argument("--retrieval", type=Path, required=True)
+
     serve = commands.add_parser("serve", help="run the MCP server and chat API")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=int, default=8000)
@@ -55,6 +59,8 @@ def main(argv: list[str] | None = None) -> None:
         asyncio.run(_search(args.query))
     elif args.command == "eval-retrieval":
         _write(args.out, asyncio.run(_eval_retrieval(args.questions, args.k)))
+    elif args.command == "report":
+        print(_report(args.runs, args.retrieval), end="")
     elif args.command == "serve":
         import uvicorn
 
@@ -128,6 +134,19 @@ async def _eval_agent(questions_path: Path, only: list[str] | None) -> str:
     summary = {k: v for k, v in asdict(report).items() if k != "results"}
     print(" ".join(f"{k}={v}" for k, v in summary.items()))
     return report.to_json()
+
+
+def _report(runs: list[str], retrieval: Path) -> str:
+    import json
+
+    from escalon.evals import load_questions, markdown_report, rescore
+
+    labels = {q.id: q.expected_action for q in load_questions(Path("evals/questions.jsonl"))}
+    parsed = []
+    for spec in runs:
+        name, _, path = spec.partition("=")
+        parsed.append((name, rescore(json.loads(Path(path).read_text(encoding="utf-8")), labels)))
+    return markdown_report(parsed, json.loads(retrieval.read_text(encoding="utf-8")))
 
 
 def _write(out: Path | None, content: str) -> None:

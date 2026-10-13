@@ -1,4 +1,4 @@
-from escalon.evals import Question, evaluate_case, evaluate_retrieval, summarise
+from escalon.evals import Question, evaluate_case, evaluate_retrieval, markdown_report, rescore, summarise
 from escalon.kb import article_url
 from escalon.search import LocalIndex
 from tests.conftest import make_chunk
@@ -73,3 +73,25 @@ async def test_retrieval_metrics(tmp_path, embedder):
     assert report.questions == 2
     assert report.hit_at_1 == 0.5
     assert report.mrr == 0.5
+
+
+def test_rescore_uses_current_labels_and_report_renders():
+    run = {
+        "model": "m",
+        "replies_with_fabricated_urls": 0,
+        "expected_article_used": 1.0,
+        "median_seconds": 9.6,
+        "action_accuracy": 0.0,
+        "results": [
+            {"question_id": "a", "action": "escalate", "error": None},
+            {"question_id": "b", "action": "answer", "error": None},
+        ],
+    }
+    rescored = rescore(run, {"a": "escalate", "b": "escalate"})
+
+    assert rescored["action_accuracy"] == 0.5
+    assert rescored["answered_when_should_escalate"] == 1
+    table = markdown_report(
+        [("v1", rescored)], {"questions": 2, "k": 5, "hit_at_1": 1, "hit_at_k": 1, "mrr": 1}
+    )
+    assert "| v1 | m | 0.50 | 1 | 0 | 1.00 | 0 | n/a | 10 s |" in table

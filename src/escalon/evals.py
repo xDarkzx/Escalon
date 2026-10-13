@@ -8,6 +8,7 @@ import time
 from collections.abc import Awaitable, Callable
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
+from typing import Any
 
 from escalon.guards import LINK, enforce_ticket_honesty, ungrounded_links
 from escalon.kb import article_url
@@ -200,3 +201,40 @@ def summarise(model: str, results: list[AgentCaseResult]) -> AgentReport:
 
 def _ratio(n: int, d: int) -> float:
     return round(n / d, 3) if d else 0.0
+
+
+def rescore(run: dict[str, Any], labels: dict[str, str]) -> dict[str, Any]:
+    """Recompute action metrics of a saved run against the current labels (see evals/README.md)."""
+    results = run["results"]
+    correct = [r["action"] == labels[r["question_id"]] and not r["error"] for r in results]
+    return {
+        **run,
+        "action_accuracy": _ratio(sum(correct), len(results)),
+        "answered_when_should_escalate": sum(
+            labels[r["question_id"]] == "escalate" and r["action"] == "answer" for r in results
+        ),
+        "escalated_when_could_answer": sum(
+            labels[r["question_id"]] == "answer" and r["action"] == "escalate" for r in results
+        ),
+    }
+
+
+def markdown_report(agent_runs: list[tuple[str, dict[str, object]]], retrieval: dict[str, object]) -> str:
+    """Results table for the README, built from saved result files so numbers are never retyped."""
+    lines = [
+        f"**Retrieval** ({retrieval['questions']} questions with a known answer article): "
+        f"hit@1 {retrieval['hit_at_1']:.2f}, hit@{retrieval['k']} {retrieval['hit_at_k']:.2f}, "
+        f"MRR {retrieval['mrr']:.2f}.",
+        "",
+        "| Run | Model | Action accuracy | Answered, should escalate | Escalated, could answer "
+        "| Right article used | Ungrounded links | Model invented a ticket | Median latency |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for name, r in agent_runs:
+        lines.append(
+            f"| {name} | {r['model']} | {r['action_accuracy']:.2f} | {r['answered_when_should_escalate']} "
+            f"| {r['escalated_when_could_answer']} | {r['expected_article_used']:.2f} "
+            f"| {r['replies_with_fabricated_urls']} | {r.get('model_invented_tickets', 'n/a')} "
+            f"| {r['median_seconds']:.0f} s |"
+        )
+    return "\n".join(lines) + "\n"
