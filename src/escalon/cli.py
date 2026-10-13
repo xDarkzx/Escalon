@@ -36,8 +36,9 @@ def main(argv: list[str] | None = None) -> None:
     ev_agent.add_argument("--only", nargs="*", help="question ids to run")
     ev_agent.add_argument("--out", type=Path)
 
-    ask = commands.add_parser("ask", help="one question to the agent, tickets recorded not filed")
-    ask.add_argument("question")
+    serve = commands.add_parser("serve", help="run the MCP server and chat API")
+    serve.add_argument("--host", default="127.0.0.1")
+    serve.add_argument("--port", type=int, default=8000)
 
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
@@ -54,6 +55,12 @@ def main(argv: list[str] | None = None) -> None:
         asyncio.run(_search(args.query))
     elif args.command == "eval-retrieval":
         _write(args.out, asyncio.run(_eval_retrieval(args.questions, args.k)))
+    elif args.command == "serve":
+        import uvicorn
+
+        from escalon.server import create_app
+
+        uvicorn.run(create_app(get_settings()), host=args.host, port=args.port, proxy_headers=True)
     elif args.command == "eval-agent":
         _write(args.out, asyncio.run(_eval_agent(args.questions, args.only)))
 

@@ -47,3 +47,31 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  infra:
+    name: Bicep and container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bicep lint and build
+        run: |
+          az bicep install
+          az bicep lint --file infra/main.bicep
+          az bicep build --file infra/main.bicep --stdout > /dev/null
+      - name: Dockerfile lint
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: Dockerfile
+          failure-threshold: warning
+      - name: Image builds and serves /healthz
+        run: |
+          docker build -t escalon:ci .
+          docker run -d --name escalon -p 8000:8000 \
+            -e ESCALON_PROFILE=local -e ESCALON_LOCAL_OPENAI_BASE_URL=http://unused/v1 \
+            -e ESCALON_CHAT_MODEL=m -e ESCALON_EMBEDDING_MODEL=e -e ESCALON_EMBEDDING_DIMENSIONS=8 \
+            -e ESCALON_LOCAL_INDEX_PATH=/tmp/index.sqlite \
+            -e ESCALON_AUTH_MODE=disabled -e ESCALON_DEV_USER_EMAIL=ci@contoso.test \
+            -e ESCALON_ZAMMAD_URL=http://unused -e ESCALON_ZAMMAD_TOKEN=unused \
+            escalon:ci
+          for i in $(seq 1 20); do curl -fsS http://localhost:8000/healthz && exit 0; sleep 1; done
+          docker logs escalon; exit 1
