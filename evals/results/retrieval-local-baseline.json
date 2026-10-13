@@ -1,0 +1,376 @@
+{
+  "k": 5,
+  "questions": 41,
+  "hit_at_1": 0.8292682926829268,
+  "hit_at_k": 0.9512195121951219,
+  "mrr": 0.8841463414634146,
+  "results": [
+    {
+      "question_id": "q01",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/printing/error-message-0x0000052e-install-network-printer",
+        "windows-client/printing/error-occurs-when-adding-ipp-printer",
+        "windows-client/printing/errors-connect-to-shared-printer-cname-record"
+      ]
+    },
+    {
+      "question_id": "q02",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/printing/server-busy-error-scan-document",
+        "windows-client/printing/scanning-twain-aware-application-hang",
+        "windows-client/performance/view-system-registry-with-64-bit-windows"
+      ]
+    },
+    {
+      "question_id": "q03",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/printing/not-all-printer-drivers-from-windows-update-in-add-printer-wizard",
+        "windows-client/group-policy/point-print-restrictions-policies-ignored",
+        "windows-client/printing/cannot-install-secure-web-services-on-devices"
+      ]
+    },
+    {
+      "question_id": "q04",
+      "rank": 1,
+      "retrieved_articles": [
+        "entra/entra-id/mfa/cant-set-up-mfa-five-devices-registered"
+      ]
+    },
+    {
+      "question_id": "q05",
+      "rank": 2,
+      "retrieved_articles": [
+        "entra/entra-id/mfa/request-not-processed-reset-pwd",
+        "entra/entra-id/mfa/cannot-use-mfa-signin-lose-phone",
+        "entra/entra-id/mfa/troubleshoot-azure-mfa-issue",
+        "entra/entra-id/mfa/unexpected-error-reset-pwd"
+      ]
+    },
+    {
+      "question_id": "q06",
+      "rank": 1,
+      "retrieved_articles": [
+        "entra/entra-id/mfa/cannot-verify-account-reset-pwd",
+        "entra/entra-id/mfa/request-not-processed-reset-pwd"
+      ]
+    },
+    {
+      "question_id": "q07",
+      "rank": null,
+      "retrieved_articles": [
+        "entra/entra-id/mfa/request-not-processed-reset-pwd",
+        "mem/intune/app-management/no-notification-microsoft365-apps-macos-reinstall",
+        "entra/entra-id/mfa/sign-in-office-365-azure-intune-sso-does-not-work",
+        "entra/entra-id/mfa/faulty-split-brain-dns-configuration-prevent-sso",
+        "entra/entra-id/mfa/unable-reset-pwd-response-call"
+      ]
+    },
+    {
+      "question_id": "q08",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/installing-updates-features-roles/troubleshoot-windows-update-error-0x8024001e",
+        "windows-client/installing-updates-features-roles/troubleshoot-windows-update-error-0x80071a91",
+        "windows-client/installing-updates-features-roles/windows-update-issues-troubleshooting",
+        "windows-client/installing-updates-features-roles/error-0x8024402c-installing-update-feature-on-demand"
+      ]
+    },
+    {
+      "question_id": "q09",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/installing-updates-features-roles/repeatedly-offer-the-same-update",
+        "windows-client/installing-updates-features-roles/update-windows-update-agent",
+        "windows-client/installing-updates-features-roles/windows-update-issues-troubleshooting"
+      ]
+    },
+    {
+      "question_id": "q10",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/installing-updates-features-roles/error-0x8007000e-0x800705aa-insufficient-virtual-memory",
+        "windows-client/installing-updates-features-roles/troubleshoot-windows-update-error-0x80070008",
+        "windows-client/installing-updates-features-roles/troubleshoot-windows-update-error-0x80070005",
+        "windows-client/installing-updates-features-roles/troubleshoot-windows-update-error-0x80070570"
+      ]
+    },
+    {
+      "question_id": "q11",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/networking/mapped-drive-connection-to-network-share-lost",
+        "windows-client/networking/mapped-network-drive-fail-reconnect",
+        "windows-client/networking/error-access-network-drive-mapped-web-share",
+        "windows-client/remote/local-computer-behaves-as-if-windows-logo-key-pressed",
+        "mem/intune/device-management/troubleshoot-device-actions"
+      ]
+    },
+    {
+      "question_id": "q12",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/networking/network-gets-disconnected-computer-not-used-after-sign-in",
+        "windows-client/networking/ics-not-work-after-computer-or-service-restart",
+        "windows-client/networking/windows-connection-manager-disconnects-wlan",
+        "windows-client/networking/l2tp-ipsec-vpn-client-connection-issue"
+      ]
+    },
+    {
+      "question_id": "q13",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/networking/wireless-devices-disabled-airplane-mode-off",
+        "mem/intune/device-enrollment/edge-ignore-pac-android-vpn-profile"
+      ]
+    },
+    {
+      "question_id": "q14",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/networking/error-when-establishing-vpn-connection",
+        "windows-client/networking/error-codes-for-dial-up-vpn-connection"
+      ]
+    },
+    {
+      "question_id": "q15",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/networking/sync-center-slow-syncing-of-offline-files",
+        "windows-client/networking/offline-file-synchronization-issue",
+        "windows-client/networking/error-open-files-offline-offline-files-wip"
+      ]
+    },
+    {
+      "question_id": "q16",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/performance/troubleshooting-slow-file-copying-in-windows"
+      ]
+    },
+    {
+      "question_id": "q17",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/setup-upgrade-and-drivers/high-pitched-noise-is-heard",
+        "windows-client/shell-experience/errors-play-audio-displayport-hdmi-monitor"
+      ]
+    },
+    {
+      "question_id": "q18",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/setup-upgrade-and-drivers/bluetooth-speakers-not-work-after-kb4505903-installed",
+        "windows-client/setup-upgrade-and-drivers/high-pitched-noise-is-heard"
+      ]
+    },
+    {
+      "question_id": "q19",
+      "rank": null,
+      "retrieved_articles": [
+        "windows-client/shell-experience/monitor-powers-off-when-pc-locked",
+        "windows-client/performance/application-error-explorer-shut-down",
+        "windows-client/networking/wireless-devices-disabled-airplane-mode-off",
+        "windows-client/setup-upgrade-and-drivers/fail-to-turn-off-computer-from-audit-mode"
+      ]
+    },
+    {
+      "question_id": "q20",
+      "rank": 2,
+      "retrieved_articles": [
+        "windows-client/shell-experience/application-shortcuts-show-blank-icons",
+        "windows-client/shell-experience/troubleshoot-start-menu-errors",
+        "windows-client/virtualization/hyper-v-not-start-vm-after-upgrade",
+        "windows-client/system-management-components/fail-to-launch-vamt-3dot0",
+        "windows-client/shell-experience/microsoft-store-apps-fail-to-start"
+      ]
+    },
+    {
+      "question_id": "q21",
+      "rank": 2,
+      "retrieved_articles": [
+        "windows-client/setup-upgrade-and-drivers/bluetooth-speakers-not-work-after-kb4505903-installed",
+        "windows-client/shell-experience/errors-play-audio-displayport-hdmi-monitor"
+      ]
+    },
+    {
+      "question_id": "q22",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/shell-experience/docked-external-monitor-not-working-windows-10-1703",
+        "windows-client/shell-experience/display-configuration-reverts-second-screen-only-resume-standby",
+        "windows-client/shell-experience/display-configuration-retained-after-reboot",
+        "windows-client/setup-upgrade-and-drivers/devices-connected-via-thunderbolt-dock-not-work"
+      ]
+    },
+    {
+      "question_id": "q23",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/shell-experience/scenario-guide-black-screen-after-sign-in",
+        "windows-client/shell-experience/windows-7-black-screen-unlock-computer",
+        "windows-client/setup-upgrade-and-drivers/sysprep-as-system-windows-11",
+        "windows-client/setup-upgrade-and-drivers/computer-screen-black-during-installation"
+      ]
+    },
+    {
+      "question_id": "q24",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/shell-experience/windows-search-performance-issues",
+        "windows-client/networking/sync-center-slow-syncing-of-offline-files"
+      ]
+    },
+    {
+      "question_id": "q25",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/shell-experience/microsoft-store-not-open-domain-joine-computer-vpn",
+        "mem/intune/known-issues",
+        "mem/intune/get-support/cannot-load-help-and-support-blade",
+        "windows-client/certificates-and-public-key-infrastructure-pki/code-31-device-manager-usbccid-smartcard-reader-problem"
+      ]
+    },
+    {
+      "question_id": "q26",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/user-profiles-and-logon/slow-logon-with-blank-screen",
+        "windows-client/shell-experience/windows-logon-process-failed-spawn-user-app"
+      ]
+    },
+    {
+      "question_id": "q27",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/user-profiles-and-logon/windows-hello-errors-during-pin-creation-in-windows-10"
+      ]
+    },
+    {
+      "question_id": "q28",
+      "rank": 4,
+      "retrieved_articles": [
+        "windows-client/shell-experience/notifications-not-show-action-notification-center",
+        "windows-client/user-profiles-and-logon/facial-recognition-logon-not-work-group-policy-setting",
+        "windows-client/user-profiles-and-logon/first-logon-fails-deploy-image",
+        "windows-client/user-profiles-and-logon/cannot-configure-a-convenience-pin"
+      ]
+    },
+    {
+      "question_id": "q29",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/windows-security/bitlocker-too-many-pin-entry-attempts",
+        "windows-client/group-policy/fail-to-apply-group-policy-at-startup",
+        "windows-client/performance/windows-boot-issues-troubleshooting"
+      ]
+    },
+    {
+      "question_id": "q30",
+      "rank": 2,
+      "retrieved_articles": [
+        "windows-client/windows-security/enforcing-bitlocker-policies-by-using-intune-known-issues",
+        "windows-client/windows-security/tpm-is-not-recognized",
+        "windows-client/windows-security/bitlocker-and-tpm-other-known-issues",
+        "windows-client/windows-security/bitlocker-not-enabled-usb-drive-not-found"
+      ]
+    },
+    {
+      "question_id": "q31",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/windows-security/file-system-error-when-pasting-password"
+      ]
+    },
+    {
+      "question_id": "q32",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/windows-security/bitlocker-recovery-known-issues",
+        "windows-client/windows-security/bitlocker-recovery-password-not-fips-compliant",
+        "windows-client/windows-security/enable-bitlocker-device-encryption-local-hard-disk"
+      ]
+    },
+    {
+      "question_id": "q33",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/device-enrollment/no-permission-to-enroll-windows-devices",
+        "mem/intune/device-enrollment/troubleshoot-android-enrollment",
+        "mem/intune/device-protection/troubleshoot-jamf"
+      ]
+    },
+    {
+      "question_id": "q34",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/device-enrollment/mdm-enrollment-error-0xcaa9001f",
+        "mem/intune/device-enrollment/troubleshoot-windows-enrollment-errors"
+      ]
+    },
+    {
+      "question_id": "q35",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/device-enrollment/cannot-update-enrollment",
+        "mem/intune/device-enrollment/troubleshoot-android-enrollment",
+        "mem/intune/device-enrollment/device-stuck-in-enrollment"
+      ]
+    },
+    {
+      "question_id": "q36",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/device-enrollment/device-ownership-changed-to-corporate",
+        "mem/intune/device-enrollment/troubleshoot-android-enrollment",
+        "mem/intune/device-configuration/troubleshoot-vpn-profiles"
+      ]
+    },
+    {
+      "question_id": "q37",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/device-configuration/users-cannot-logon-windows-multi-app-kiosk",
+        "windows-client/shell-experience/kiosk-mode-issues-troubleshooting"
+      ]
+    },
+    {
+      "question_id": "q38",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/device-configuration/password-expiration-setting-not-working",
+        "mem/intune/device-protection/error-deploying-password-policy",
+        "mem/intune/device-enrollment/configure-android-enterprise-devices-intune"
+      ]
+    },
+    {
+      "question_id": "q39",
+      "rank": 1,
+      "retrieved_articles": [
+        "mem/intune/app-management/managed-browser-policy-triggers-error-0x87d1fde8",
+        "mem/intune/app-protection-policies/data-transfer-scenarios",
+        "mem/intune/known-issues",
+        "mem/intune/app-protection-policies/troubleshoot-mam"
+      ]
+    },
+    {
+      "question_id": "q40",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/shell-experience/changes-calendar-date-in-bios-not-reflected"
+      ]
+    },
+    {
+      "question_id": "q41",
+      "rank": 1,
+      "retrieved_articles": [
+        "windows-client/setup-upgrade-and-drivers/non-compliant-usb-3-devices-not-function",
+        "windows-client/setup-upgrade-and-drivers/error-when-you-access-usb-storage-device",
+        "windows-client/backup-and-storage/garmin-usb-devices-not-working",
+        "windows-client/setup-upgrade-and-drivers/drive-reassignment-block-update"
+      ]
+    }
+  ]
+}

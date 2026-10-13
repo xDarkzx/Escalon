@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint, types, tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Ruff lint
+        run: uv run ruff check --output-format github src tests
+      - name: Ruff format
+        run: uv run ruff format --check src tests
+      - name: mypy (strict)
+        run: uv run mypy
+      - name: Tests with coverage gate
+        run: uv run pytest --cov --cov-report=term --cov-report=xml
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage.xml
+
+  security:
+    name: Dependency and secret scanning
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: astral-sh/setup-uv@v5
+      - name: Known-vulnerability audit of locked dependencies
+        run: |
+          uv export --locked --no-emit-project --format requirements-txt > requirements.lock.txt
+          uvx pip-audit --requirement requirements.lock.txt --strict --disable-pip
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
