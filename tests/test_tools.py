@@ -54,3 +54,10 @@ def test_ticket_body_handles_no_articles_and_blank_steps():
     body = ticket_body("Laptop dropped", "  ", [])
     assert "Already tried:\nnone" in body
     assert "- none matched" in body
+
+
+async def test_ticket_created_this_session_counts_as_open_before_search_indexes_it(tools):
+    # RecordingTickets.find_open_tickets returns nothing, like Zammad in the seconds after a write.
+    await tools.create_ticket("Printer error", "s", "none", [])
+
+    assert "#EVAL-1 [new] Printer error" in await tools.find_open_tickets()

@@ -48,7 +48,11 @@ class HelpdeskTools:
     async def find_open_tickets(self) -> str:
         """List the user's tickets that are still open, so a duplicate isn't created."""
         self.calls.append(ToolCall("find_open_tickets", {}))
-        tickets = await self.tickets.find_open_tickets(self.user_email)
+        found = await self.tickets.find_open_tickets(self.user_email)
+        # Zammad indexes new tickets asynchronously (~3 s), so one created moments ago in this
+        # conversation may not be searchable yet. Include it so it is never filed twice.
+        seen = {t.number for t in found}
+        tickets = found + [t for t in self.created if t.number not in seen]
         if not tickets:
             return "The user has no open tickets."
         return "\n".join(f"#{t.number} [{t.state}] {t.title} — {t.url}" for t in tickets)

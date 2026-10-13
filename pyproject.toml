@@ -44,6 +44,7 @@ dev = [
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 pythonpath = ["."]
+markers = ["integration: needs live external services"]
 addopts = "--strict-markers -W error::pytest.PytestUnraisableExceptionWarning"
 
 [tool.ruff]
