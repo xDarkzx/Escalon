@@ -65,7 +65,7 @@ jobs:
           az bicep lint --file infra/main.bicep
           az bicep build --file infra/main.bicep --stdout > /dev/null
       - name: Dockerfile lint
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.5.0
         with:
           dockerfile: Dockerfile
           failure-threshold: warning
