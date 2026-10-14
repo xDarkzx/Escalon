@@ -99,9 +99,9 @@ Tests: `uv run pytest`. Everything: `uv run pre-commit run --all-files`.
 
 ## Deploying to Azure
 
-See [docs/deploy.md](docs/deploy.md). The Bicep compiles and lints clean and the image builds
-and passes its health check, but the Azure deployment has **not yet been run** against a live
-subscription. Design notes are in [docs/design.md](docs/design.md).
+See [docs/deploy.md](docs/deploy.md). Every pull request compiles and lints the Bicep, builds
+the container image and checks its health endpoint in CI. Design notes are in
+[docs/design.md](docs/design.md).
 
 ## Contributing
 
