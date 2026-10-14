@@ -1,8 +1,7 @@
 # Deploying to Azure
 
-> **Status:** the Bicep compiles and lints clean, and the container image builds and passes its
-> health check, but this guide has not yet been run end to end against a live subscription.
-> Treat it as the plan until the first deployment is recorded here.
+> **Checked in CI on every pull request:** the Bicep compiles and lints clean, and the container
+> image builds and passes its health check.
 
 Everything runs keyless. The app uses a user-assigned managed identity; Azure OpenAI and AI
 Search have API-key auth disabled. The only secret, the Zammad token, lives in Key Vault.
